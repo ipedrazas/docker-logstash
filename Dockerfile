@@ -14,8 +14,8 @@ VOLUME ["/data"]
 
 ADD conf/logstash.conf /data/logstash.conf
 RUN rm -rf /tmp/*
-RUN sudo mkdir -p /etc/pki/tls/certs
-RUN sudo mkdir /etc/pki/tls/private
+RUN sudo mkdir -p /data/pki/tls/certs
+RUN sudo mkdir /data/pki/tls/private
 RUN cd /data/pki/tls; \
     sudo openssl req -x509 -batch -nodes -days 3650 -newkey rsa:2048 \
     -keyout private/logstash-forwarder.key \

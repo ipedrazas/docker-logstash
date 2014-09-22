@@ -13,3 +13,5 @@ cd /data/logstash/pki; \
 
 # docker run -d -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash
 
+docker run -it --rm -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash bash
+

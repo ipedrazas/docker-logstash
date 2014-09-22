@@ -9,22 +9,18 @@ MAINTAINER Ivan Pedrazas<ipedrazas@gmail.com>
 
 RUN cd /opt && wget https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz && tar zxf logstash-1.4.2.tar.gz && rm logstash-1.4.2.tar.gz
 RUN ln -s /opt/logstash-1.4.2 /opt/logstash
+RUN rm -rf /tmp/*
 
-VOLUME ["/data"]
 
 ADD conf/logstash.conf /data/logstash.conf
-RUN rm -rf /tmp/*
-RUN mkdir -p /data/pki/tls/certs
-RUN mkdir -p /data/pki/tls/private
-RUN cd /data/pki/tls; \
-    sudo openssl req -x509 -batch -nodes -days 3650 -newkey rsa:2048 \
-    -keyout private/logstash-forwarder.key \
-    -out certs/logstash-forwarder.crt
 
 ADD conf/01-lumberjack-input.conf /etc/logstash/conf.d/01-lumberjack-input.conf
+ADD conf/02-nginx-input.conf /etc/logstash/conf.d/02-nginx-input.conf
 ADD conf/10-syslog.conf /etc/logstash/conf.d/10-syslog.conf
+ADD conf/29-nginx-output.conf /etc/logstash/conf.d/20-nginx-output.conf
 ADD conf/30-lumberjack-output.conf /etc/logstash/conf.d/30-lumberjack-output.conf
 
+VOLUME ["/data"]
 
 EXPOSE 514
 EXPOSE 9292
@@ -37,6 +33,4 @@ CMD /opt/logstash/bin/logstash \
 
 
 
-
-# docker run -d -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash
 

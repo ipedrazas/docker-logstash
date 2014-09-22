@@ -17,7 +17,7 @@ ADD conf/logstash.conf /data/logstash.conf
 ADD conf/01-lumberjack-input.conf /etc/logstash/conf.d/01-lumberjack-input.conf
 ADD conf/02-nginx-input.conf /etc/logstash/conf.d/02-nginx-input.conf
 ADD conf/10-syslog.conf /etc/logstash/conf.d/10-syslog.conf
-ADD conf/29-nginx-output.conf /etc/logstash/conf.d/20-nginx-output.conf
+ADD conf/29-nginx-output.conf /etc/logstash/conf.d/29-nginx-output.conf
 ADD conf/30-lumberjack-output.conf /etc/logstash/conf.d/30-lumberjack-output.conf
 
 VOLUME ["/data"]

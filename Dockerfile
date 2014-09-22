@@ -9,11 +9,14 @@ MAINTAINER Ivan Pedrazas<ipedrazas@gmail.com>
 
 RUN cd /opt && wget https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz && tar zxf logstash-1.4.2.tar.gz && rm logstash-1.4.2.tar.gz
 RUN ln -s /opt/logstash-1.4.2 /opt/logstash
+
+VOLUME ["/data"]
+
 ADD conf/logstash.conf /data/logstash.conf
 RUN rm -rf /tmp/*
 RUN sudo mkdir -p /etc/pki/tls/certs
 RUN sudo mkdir /etc/pki/tls/private
-RUN cd /etc/pki/tls; \
+RUN cd /data/pki/tls; \
     sudo openssl req -x509 -batch -nodes -days 3650 -newkey rsa:2048 \
     -keyout private/logstash-forwarder.key \
     -out certs/logstash-forwarder.crt
@@ -35,5 +38,5 @@ CMD /opt/logstash/bin/logstash \
 
 
 
-# docker run -d -p 9292:9292 -v /data/logstash:/data ipedrazas/logstash
+# docker run -d -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash
 

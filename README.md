@@ -8,10 +8,12 @@ Run logstash as a service:
 
     docker run -d -p 9292:9292 --link es:es -v /var/log:/var/log -v /data/logstash:/data ipedrazas/logstash
 
-If you need to get into teh box to debug or just to see how things are:
+If you need to get into the box to debug or just to see how things are:
+
     docker run -it --rm --link es:es -v /data/logstash:/data -v /var/log:/var/log ipedrazas/logstash bash
 
 To validate that your setup is correct, get into a logstash container and execute the following:
+
     /opt/logstash/bin/logstash agent --config /data/logstash.conf -e "input { stdin{} } output { elasticsearch {    host => es}}"
 
 Whatever you type, you should see it in your [Kibana dashboard](http://localhost:9292)

@@ -11,7 +11,10 @@ cd /data/logstash/pki; \
 
 
 
-# docker run -d -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash
+# docker run -d -p 9292:9292 --link es:es -v /var/log:/var/log -v /data/logstash:/data ipedrazas/logstash
 
-docker run -it --rm -p 9292:9292 --link es:es -v /data/logstash:/data ipedrazas/logstash bash
+docker run -it --rm -link es:es -v /data/logstash:/data -v /var/log:/var/log ipedrazas/logstash bash
 
+/opt/logstash/bin/logstash agent --configtest --config /data/logstash.conf -e "input { stdin{} } output { elasticsearch { host => es } }"
+
+/opt/logstash/bin/logstash agent --config /data/logstash.conf -e "input { stdin{} } output { stdout { codec => rubydebug }  elasticsearch {    host => es}}"

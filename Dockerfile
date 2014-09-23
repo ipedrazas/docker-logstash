@@ -12,13 +12,12 @@ RUN ln -s /opt/logstash-1.4.2 /opt/logstash
 RUN rm -rf /tmp/*
 
 
+ADD conf/nginx.grok /opt/logstash/patterns/nginx
+
 #ADD conf/logstash.conf /data/logstash.conf
 
-#ADD conf/01-lumberjack-input.conf /etc/logstash/conf.d/01-lumberjack-input.conf
-#ADD conf/02-nginx-input.conf /etc/logstash/conf.d/02-nginx-input.conf
-#ADD conf/10-syslog.conf /etc/logstash/conf.d/10-syslog.conf
-#ADD conf/29-nginx-output.conf /etc/logstash/conf.d/29-nginx-output.conf
-#ADD conf/30-lumberjack-output.conf /etc/logstash/conf.d/30-lumberjack-output.conf
+
+ADD conf/11-nginx.conf /etc/logstash/conf.d/11-nginx.conf
 
 VOLUME ["/data"]
 
@@ -33,3 +32,4 @@ CMD /opt/logstash/bin/logstash \
 
 
 
+/opt/logstash/bin/logstash -v agent --config /data/logstash.conf  -- web
